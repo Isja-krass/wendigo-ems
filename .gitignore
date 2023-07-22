@@ -1,0 +1,24 @@
+# ignore nodeJS related files
+node_modules
+
+
+# ignore visual-studio-code related files
+.vscode
+
+# ignote tests
+test.js
+test
+testing
+test_scripts
+*.test
+
+# ignore temporary files
+.~lock.*
+*.bak
+*.temp
+
+# ignore logfies
+log
+*.wlog
+*.log
+crashes

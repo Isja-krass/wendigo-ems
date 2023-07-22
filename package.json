@@ -1,0 +1,32 @@
+{
+    "name": "wendigo-ems",
+    "version": "0.0.1-dev",
+    "displayName": "com.exposed.wendigo-ems",
+    "description": "The Embedded Message System (short EMS) of the Wendigo-toolkit.",
+    "license": "MIT",
+    "author": {
+        "name": "isja_krass",
+        "email": "isja_krass@project-exposed.de"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Isja-krass/erndigo-ems"
+    },
+    "categories": [
+        "Debuggers",
+        "Visualization",
+        "Testing",
+        "Themes"
+    ],
+    "keywords": [
+        "console",
+        "colors",
+        "Visualization",
+        "terminal",
+        "logfiles"
+    ],
+    "main": "wendigo-ems",
+    "scripts": {
+        "init": ""
+    }
+}
