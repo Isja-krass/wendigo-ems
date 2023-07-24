@@ -25,7 +25,7 @@
         "terminal",
         "logfiles"
     ],
-    "main": "wendigo-ems",
+    "main": "wendigo-ems.js",
     "scripts": {
         "init": ""
     }
