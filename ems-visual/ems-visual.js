@@ -27,7 +27,7 @@ module.exports = class {
      * @param {string} options.colorTheme choose a color theme (default:  'neo-console')
      * @param {string} options.ignoreClasses[] ignore speziffic event and error classes (default: none)
      * @param {"local"|"date-now"|"onlytime"} options.chrono set the chrono-shematic used for console timestamps (default: 'local')
-     * @param {number} options.chonoLength maximum timestamp length to enshure an uniform look
+     * @param {number} options.chronoLength maximum timestamp length to enshure an uniform look
      * @param {number} options.genericAnimationTick Overall console animation tick (default: 100ms)
      * @param {"none"|"typenwriter"} options.animation decorative animation (default: 'none')
      * @param {boolean} options.enableDebug enable debugging messages (default: false)
@@ -43,7 +43,7 @@ module.exports = class {
         if (typeof options.ignoreClasses == "undefined") {this.ignoreClasses = []} else {this.ignoreClasses = options.ignoreClasses};
         if (typeof options.chrono != "string") {this.chrono = "local"} else {this.chrono = options.chrono};
         if (typeof options.genericAnimationTick != "number") {this.genericAnimationTick = 30} else {this.genericAnimationTick = options.genericAnimationTick};
-        if (options.chonoLength == 0  || !options.chonoLength || typeof chonoLength != "number") {this.chonoLength = 12} else {this.chonoLength = options.chonoLength};
+        if (options.chronoLength == 0  || !options.chronoLength || typeof chronoLength != "number") {this.chronoLength = 12} else {this.chronoLength = options.chronoLength};
         if (typeof options.animation != "string") {this.animation = "none"} else {this.animation = options.animation};
         if (options.enableDebug == undefined) {this.enableDebug = false} else {this.enableDebug = options.enableDebug};
 
@@ -55,18 +55,6 @@ module.exports = class {
             logVisualision: false,
             logLevel: "warning",
             ignoreClasses: [],
-        };
-
-        // default values for telemetry
-        this.telemetry = {
-            address: "000.000.000.0",
-            port: 1520,
-            sendDebug: false,
-            method: "broadcast",
-            security: {
-                useEncryption: false,
-                symetricKey: "",
-            },
         };
 
     };
@@ -137,11 +125,11 @@ module.exports = class {
         } else {
             if (this.logfile.path != "") {
                 if (this.logfile.logLevel != "warning" && this.logfile.logLevel != "error" && this.logfile.logLevel != "fatal") {
-                    this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + " " + message);
+                    this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + " " + message);
                 };
             };
             this.cout(colorizer([
-                {role: "grayed", text: chrono(this.chrono, this.chonoLength, !this.useTimestamps)},
+                {role: "grayed", text: chrono(this.chrono, this.chronoLength, !this.useTimestamps)},
                 {role: "neutral", text: message},
             ], this.colorTheme, !this.useFormatting) + "\n");
         };
@@ -157,11 +145,11 @@ module.exports = class {
         } else {
             if (this.logfile.path != "") {
                 if (this.logfile.logLevel != "error" && this.logfile.logLevel != "fatal") {
-                    this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + " !WRN: " + message);
+                    this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + " !WRN: " + message);
                 };
             };
             this.cout(colorizer([
-                {role: "grayed", text: chrono(this.chrono, this.chonoLength, !this.useTimestamps)},
+                {role: "grayed", text: chrono(this.chrono, this.chronoLength, !this.useTimestamps)},
                 {role: "danger", text: "!WRN"},
                 {role: "neutral", text: ": "},
                 {role: "grayed", text: message},
@@ -183,13 +171,13 @@ module.exports = class {
             if (this.logfile.path != "") {
                 if (!this.logfile.ignoreClasses.includes(errClass)) {
                     if (this.logfile.logLevel != "fatal"){
-                        this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + " !ERR: [" + code + "]" + errClass + ":: " + message);   
+                        this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + " !ERR: [" + code + "]" + errClass + ":: " + message);   
                     };
                 };
             };
             if (!this.ignoreClasses.includes(errClass)) {
                 this.cout(colorizer([
-                    {role: "grayed", text: chrono(this.chrono, this.chonoLength, !this.useTimestamps)},
+                    {role: "grayed", text: chrono(this.chrono, this.chronoLength, !this.useTimestamps)},
                     {role: "error", text: "!ERR"},
                     {role: "neutral", text: ": ["},
                     {role: "info", text: code},
@@ -220,14 +208,14 @@ module.exports = class {
         if (this.logfile.path != "") {
             if (this.logfile.logLevel == "all") {
                 if (this.logfile.logVisualision) {
-                    this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + ` [OPERATION]: ${trigger}|${descriptor} >> ${success}`);
+                    this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [OPERATION]: ${trigger}|${descriptor} >> ${success}`);
                     data.forEach(element => {
                         var successE = "";
                         if (element.successor) {successE = "SUCCESS"} else {successE = "FAIL"};
                         this.fsloggerHandle.append(`     ╠═ ${element.name}:: ${element.descriptor} >> ${successE}`); 
                     });
                 } else {
-                    this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + ` [OPERATION]: ${trigger}|${descriptor} >> ${success}`);
+                    this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [OPERATION]: ${trigger}|${descriptor} >> ${success}`);
                     data.forEach(element => {
                         var successE = "";
                         if (element.successor) {successE = "SUCCESS"} else {successE = "FAIL"};
@@ -237,14 +225,14 @@ module.exports = class {
             };
         };
         this.cout(colorizer([
-            {role: "grayed", text: chrono(this.chrono, this.chonoLength, !this.useTimestamps)},
+            {role: "grayed", text: chrono(this.chrono, this.chronoLength, !this.useTimestamps)},
             {role: "operation", text: "OPERATION"},
             {role: "neutral", text: ": "},
             {role: "info", text: trigger},
             {role: "neutral", text: "|"},
             {role: "dissabeld", text: descriptor}
         ], this.colorTheme, !this.useFormatting) + "\n")
-        var spacer = chrono(this.chrono, this.chonoLength, !this.useTimestamps).length;
+        var spacer = chrono(this.chrono, this.chronoLength, !this.useTimestamps).length;
         var emptySpace = "";
         for (var i = 0; i < spacer; i++) {
             emptySpace = emptySpace  + " ";
@@ -305,19 +293,19 @@ module.exports = class {
         return new Promise((resolve, reject) => {
             var linstener = process.stdin.on("data", (rawData) => {
                 var input = rawData.toString();if (this.logfile.path != "" && this.logfile.logUserinput) {
-                    this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'bool':: ${input}`);
+                    this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'bool':: ${input}`);
                 };
                 if (input.lengt == 0 || input == undefined || input == null) {
                     reject(null);
                     linstener.destroy();
                     if (this.logfile.path != "" && this.logfile.logUserinput) {
-                        this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: input was 'undefined' or 'null'`);
+                        this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: input was 'undefined' or 'null'`);
                     };
                 } else {
                     resolve(input.replace(/\n/g, ""));
                     linstener.destroy();
                     if (this.logfile.path != "" && this.logfile.logUserinput) {
-                        this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'string':: ${input}`);
+                        this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'string':: ${input}`);
                     };
                 };
             });
@@ -345,14 +333,14 @@ module.exports = class {
                     reject(null);
                     listener.destroy();
                     if (this.logfile.path != "" && this.logfile.logUserinput) {
-                        this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: input was 'undefined' or 'null'`);
+                        this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: input was 'undefined' or 'null'`);
                     };
                 } else {
                     var numberResolved = Number(input.replace(/\n/g, ""));
                     listener.destroy();
                     if (numberResolved == NaN) {
                         if (this.logfile.path != "" && this.logfile.logUserinput) {
-                            this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: was not able to resolve 'number' out of '${input}' >> reject NULL `);
+                            this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: was not able to resolve 'number' out of '${input}' >> reject NULL `);
                         };
                         reject(null);
                     } else { 
@@ -386,7 +374,7 @@ module.exports = class {
                     reject(null);
                     listener.destroy();
                     if (this.logfile.path != "" && this.logfile.logUserinput) {
-                        this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: input was 'undefined' or 'null'`);
+                        this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: input was 'undefined' or 'null'`);
                     };
                 } else {
                     switch (input) {
@@ -394,52 +382,52 @@ module.exports = class {
                             reject(null);
                             listener.destroy();
                             if (this.logfile.path != "" && this.logfile.logUserinput) {
-                                this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: was not able to resolve 'bool' out of '${input}' >> reject NULL `);
+                                this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: was not able to resolve 'bool' out of '${input}' >> reject NULL `);
                             };
                         break;
                         case "true":
                             listener.destroy();
                             resolve(true);
                             if (this.logfile.path != "" && this.logfile.logUserinput) {
-                                this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'bool':: ${input}`);
+                                this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'bool':: ${input}`);
                             };
                         break;
                         case "false":
                             listener.destroy();
                             resolve(false);
                             if (this.logfile.path != "" && this.logfile.logUserinput) {
-                                this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'bool':: ${input}`);
+                                this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'bool':: ${input}`);
                             };
                         break;
                         case "yes":
                             listener.destroy();
                             resolve(true);
                             if (this.logfile.path != "" && this.logfile.logUserinput) {
-                                this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'bool':: ${input}`);
+                                this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'bool':: ${input}`);
                             };
                         break;
                         case "no":
                             listener.destroy();
                             resolve(false);
                             if (this.logfile.path != "" && this.logfile.logUserinput) {
-                                this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'bool':: ${input}`);
+                                this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'bool':: ${input}`);
                             };
                             if (this.logfile.path != "" && this.logfile.logUserinput) {
-                                this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'bool':: ${input}`);
+                                this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'bool':: ${input}`);
                             };
                         break;
                         case "0":
                             listener.destroy();
                             resolve(false);
                             if (this.logfile.path != "" && this.logfile.logUserinput) {
-                                this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'bool':: ${input}`);
+                                this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'bool':: ${input}`);
                             };
                         break;
                         case "1":
                             listener.destroy();
                             resolve(true);
                             if (this.logfile.path != "" && this.logfile.logUserinput) {
-                                this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'bool':: ${input}`);
+                                this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [USER-INPUT]: as 'bool':: ${input}`);
                             };
                         break;
                     };
@@ -458,7 +446,7 @@ module.exports = class {
         if (role == "" || role == undefined) { role = "neutral" };
         if (this.logfile.path != "" && this.logfile.logVisualision) {
             out.split("\n").forEach(outputLine => {
-                this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + outputLine);
+                this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + outputLine);
             });
         };
         this.cout(colorizer([
@@ -484,7 +472,7 @@ module.exports = class {
             output.push({role: "neutral", text: element.name + ":" + spacerAdd});
             output.push({role: "info", text: element.value + "\n"});
             if (this.logfile.path != "" && this.logfile.logVisualision) {
-                this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + element.name + ":" + spacerAdd + element.value);
+                this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + element.name + ":" + spacerAdd + element.value);
             };
         });
         this.cout(colorizer(output, this.colorTheme, !this.useFormatting));
@@ -498,11 +486,11 @@ module.exports = class {
         if (this.enableDebug) {
             if (this.logfile.path != "") {
                 if (this.includeDebug) {
-                    this.fsloggerHandle.append(chrono(this.chrono, this.chonoLength, !this.logfile.includeTimestamps) + "DEBUG: " + message + " ['" + typeof message + "']");   
+                    this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + "DEBUG: " + message + " ['" + typeof message + "']");   
                 };
             };    
             this.cout(colorizer([
-                {role: "grayed", text: chrono(this.chrono, this.chonoLength, !this.useTimestamps)},
+                {role: "grayed", text: chrono(this.chrono, this.chronoLength, !this.useTimestamps)},
                 {role: "good", text: " DEBUG"},
                 {role: "neutral", text: ": "},
                 {role: "dissabeld", text: message}
