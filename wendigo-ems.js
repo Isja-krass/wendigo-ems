@@ -1,7 +1,5 @@
 // #BEGIN MODULE EXPORT
 module.exports = {
-    EMS_VISUAL: require("./ems-visual/ems-visual"),
-    EMS_TELEMETRY: require("./ems-telemetry/ems-telemetry"),
-    EMS_LOGERATOR: require("./ems-logerator/ems-logerator"),
+    EMS_VISUAL: require("./ems-visual/ems-visual.js"),
 };
 // # END EXPORT
