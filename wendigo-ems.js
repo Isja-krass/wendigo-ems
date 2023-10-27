@@ -1,5 +1,5 @@
 // #BEGIN MODULE EXPORT
 module.exports = {
-    EMS_VISUAL: require("./ems-visual/ems-visual.js"),
+    EMS_VISUAL: require("./ems-visual/ems-visual"),
 };
 // # END EXPORT

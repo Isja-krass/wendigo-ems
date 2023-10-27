@@ -112,7 +112,6 @@ module.exports = class {
                 }, this.genericAnimationTick);
             break;
         };
-
     };
 
     /**
@@ -192,6 +191,44 @@ module.exports = class {
     };
 
     /**
+     * Displays an event and its parameters.
+     * @param {string} duct Name of the specific duct the event occurs on.
+     * @param {string} name Name of the event itself.
+     * @param {string} description Event description.
+     */
+    logEvent (duct, name, description) {
+        if (this.globalLogLevel == "warning" || this.globalLogLevel == "error" || this.globalLogLevel == "fatal") {
+            return;
+        };
+        if (this.logfile.path != "") {
+            if (this.logfile.logLevel == "all") {
+                this.fsloggerHandle.append(chrono(this.chrono, this.chronoLength, !this.logfile.includeTimestamps) + ` [EVENT]: ${name}@${duct} | ${description}`);
+            };
+        };
+        this.cout(colorizer([
+            {role: "grayed", text: chrono(this.chrono, this.chronoLength, !this.useTimestamps)},
+            {role: "operation", text: "EVENT"},
+            {role: "neutral", text: ": "},
+            {role: "info", text: name},
+            {role: "dissabeld", text: " @ "},
+            {role: "danger", text: duct}
+        ], this.colorTheme, !this.useFormatting) + "\n");
+        var spacer = chrono(this.chrono, this.chronoLength, !this.useTimestamps).length;
+        var emptySpace = "";
+        for (var i = 0; i < spacer; i++) {
+            emptySpace = emptySpace  + " ";
+        };
+        this.cout(colorizer([
+            {role: "neutral", text: emptySpace + "─┰───"},
+        ], this.colorTheme, !this.useFormatting) + "\n");
+        this.cout(colorizer([
+            {role: "neutral", text: emptySpace + " ┗━━━ "},
+            {role: "dissabeld", text: "META: "},
+            {role: "neutral", text: description}
+        ], this.colorTheme, !this.useFormatting) + "\n");
+    };
+    
+    /**
      * Displays an operation and informs about the status of every subfunction.
      * @param {"still"|"oneshot"|"event"|"loop"} trigger Describes how the operation was triggerd.
      * @param {string} descriptor Describes the operation (AKA "opration_class").
@@ -231,7 +268,7 @@ module.exports = class {
             {role: "info", text: trigger},
             {role: "neutral", text: "|"},
             {role: "dissabeld", text: descriptor}
-        ], this.colorTheme, !this.useFormatting) + "\n")
+        ], this.colorTheme, !this.useFormatting) + "\n");
         var spacer = chrono(this.chrono, this.chronoLength, !this.useTimestamps).length;
         var emptySpace = "";
         for (var i = 0; i < spacer; i++) {
@@ -497,4 +534,5 @@ module.exports = class {
             ], this.colorTheme, !this.useFormatting) + "\n");
         };
     };
+
 };
