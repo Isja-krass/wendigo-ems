@@ -28,5 +28,8 @@
     "main": "wendigo-ems.js",
     "scripts": {
         "init": ""
+    },
+    "dependencies": {
+        "wendigo-ems": "github:Isja-krass/wendigo-ems"
     }
 }
